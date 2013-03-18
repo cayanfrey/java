@@ -42,7 +42,7 @@ public class Mission implements Serializable {
     
     private String categorie;
     
-    // associations
+    // associationss
     @OneToOne
     private Media media;
     

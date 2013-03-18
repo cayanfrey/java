@@ -43,11 +43,31 @@ public class MissionManager implements MissionManagerLocal {
         media.setMission(mission);
                 
         em.persist(media);
-        
         em.persist(mission);
         em.flush();
         return mission.getId();
     }
+
+    @Override
+    public void updateMission(Mission missionModifie) {
+        Mission retourMission = em.find(Mission.class, missionModifie.getId());
+        if(retourMission != null){
+            retourMission.setTitre(missionModifie.getTitre());
+            retourMission.setDescription(missionModifie.getDescription());
+            retourMission.setDateMission(missionModifie.getDateMission());
+            retourMission.setDuree(missionModifie.getDuree());
+            retourMission.setNbPoints(missionModifie.getNbPoints());
+            retourMission.setStatut(missionModifie.getStatut());
+            retourMission.setCategorie(missionModifie.getCategorie());
+            
+            //On reprend l'ancien media car on ne le change pas
+            retourMission.setMedia(retourMission.getMedia());
+            
+            em.persist(retourMission);
+            em.flush();
+        }
+    }
+    
 
     
 

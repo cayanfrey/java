@@ -4,6 +4,7 @@
  */
 package test;
 
+import ch.comem.models.Mission;
 import ch.comem.models.Photo;
 import ch.comem.models.Statut;
 import ch.comem.services.MissionManagerLocal;
@@ -27,6 +28,11 @@ public class TestMission implements TestMissionLocal {
         Photo photo = new Photo();
         photo.setTitre(titreMedia);
         missionManager.createMission(titre, description, dateMission, duree, nbPoints, statut, categorie, photo);
+    }
+
+    @Override
+    public void updateTestMission(Mission missionModifie) {
+        missionManager.updateMission(missionModifie);
     }
     
     

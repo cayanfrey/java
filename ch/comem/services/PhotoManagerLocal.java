@@ -4,6 +4,7 @@
  */
 package ch.comem.services;
 
+import ch.comem.models.Photo;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +15,11 @@ import javax.ejb.Local;
 public interface PhotoManagerLocal {
 
     Long createPhoto(String titre, String url, String vignetteUrl);
-    
+
+    void updatePhoto(Long id, String newTitre, String newUrl, String newVignetteUrl);
+
+    void deletePhoto(Long id);
+
+    Photo readPhoto(Long id);
+
 }

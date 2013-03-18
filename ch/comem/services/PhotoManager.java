@@ -4,6 +4,7 @@
  */
 package ch.comem.services;
 
+import ch.comem.messages.Message;
 import ch.comem.models.Photo;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,6 +31,59 @@ public class PhotoManager implements PhotoManagerLocal {
         return photo.getId();
     }
 
-    
+    /**
+     * 
+     * @param id, l'id de la photo à modifier
+     * @param newTitre, le nouveau titre
+     * @param newUrl, la nouvelle url
+     * @param newVignetteUrl , la nouvelle url de la vignette
+     */
+    @Override
+    public void updatePhoto(Long id, String newTitre, String newUrl, String newVignetteUrl) {
+        Photo retourPhoto = em.find(Photo.class, id);
+        if(retourPhoto != null){
+            retourPhoto.setTitre(newTitre);
+            retourPhoto.setUrl(newUrl);
+            retourPhoto.setVignetteUrl(newVignetteUrl);
+            em.persist(retourPhoto);
+            em.flush();
+            Message.setStatut(Message.TypeStatut.OBJETMODIFIE);
+        }
+        else{
+            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+        } 
+    }
+    /**
+     * 
+     * @param id , l'idée de la photo à supprimer
+     */
+    @Override
+    public void deletePhoto(Long id) {
+        Photo retourPhoto = em.find(Photo.class, id);
+        if(retourPhoto != null){
+            em.remove(retourPhoto);
+            Message.setStatut(Message.TypeStatut.OBJETSUPPRIME);
+        }
+        else{
+            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+        }
+    }
+    /**
+     * 
+     * @param id, l'id de la photo que l'on veut retourner
+     * @return l'objet photo
+     */
+    @Override
+    public Photo readPhoto(Long id) {
+        Photo retourPhoto = em.find(Photo.class, id);
+        if(retourPhoto != null){
+            Message.setStatut(Message.TypeStatut.OBJECTVALIDE);
+        }
+        else{
+            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+        }
+        return retourPhoto;
+    }
 
+    
 }

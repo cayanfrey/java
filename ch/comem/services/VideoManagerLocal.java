@@ -14,6 +14,6 @@ import javax.ejb.Local;
 @Local
 public interface VideoManagerLocal {
 
-    Long createVideo(double duree);
+    Long createVideo(String titre, String url, double duree);
     
 }

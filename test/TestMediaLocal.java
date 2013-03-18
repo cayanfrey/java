@@ -15,5 +15,11 @@ import javax.ejb.Local;
 public interface TestMediaLocal {
 
     void addTestMedia(String titre, String url, String vignetteUrl, double duree);
+
+    void updateTestMedia(Long id, String newTitre, String newUrl, String newVignetteUrl);
+
+    void removeTestMedia(Long id);
+
+    void readTestMedia(Long id);
     
 }

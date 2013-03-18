@@ -27,10 +27,27 @@ public class TestMedia implements TestMediaLocal {
 
     @Override
     public void addTestMedia(String titre, String url, String vignetteUrl, double duree) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
+            //if photo then ??? if video then ?? Héritage ?
             photoManager.createPhoto(titre, url, vignetteUrl);
-            videoManager.createVideo(duree);
+            //videoManager.createVideo(duree);
         }
     }
 
+    @Override
+    public void updateTestMedia(Long id, String newTitre, String newUrl, String newVignetteUrl) {
+        photoManager.updatePhoto(id, newTitre, newUrl, newVignetteUrl);
+    }
+
+    @Override
+    public void removeTestMedia(Long id) {
+        photoManager.deletePhoto(id);
+    }
+
+    @Override
+    public void readTestMedia(Long id) {
+        photoManager.readPhoto(id);
+    }
+    
+    
 }

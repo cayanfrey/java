@@ -20,8 +20,10 @@ public class VideoManager implements VideoManagerLocal {
 
 
     @Override
-    public Long createVideo(double duree) {
+    public Long createVideo(String titre, String url, double duree) {
         Video video = new Video();
+        video.setTitre(titre);
+        video.setUrl(url);
         video.setDuree(duree);
         em.persist(video);
         em.flush();

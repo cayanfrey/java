@@ -23,8 +23,9 @@ public class Video extends Media implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private double duree;
+    
 
     public double getDuree() {
         return duree;

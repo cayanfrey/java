@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 /**
@@ -31,6 +30,18 @@ public abstract class Media implements Serializable {
     private String url;
     
     private String vignetteUrl;
+    
+    @OneToOne
+    private Mission missionAppartientMedia;
+
+    public Mission getMissionAppartientMedia() {
+        return missionAppartientMedia;
+    }
+
+    public void setMissionAppartientMedia(Mission missionAppartientMedia) {
+        this.missionAppartientMedia = missionAppartientMedia;
+    }
+    
     
     
     public String getTitre() {

@@ -21,4 +21,8 @@ public interface TestMissionLocal {
     int nbPoints, Statut statut, String categorie, String titreMedia, String nomMembre, String nomGroupe);
 
     void updateTestMission(Long id, String newTitre, String newDescription, String newCat);
+
+    void removeTestMission(Long id);
+    
+    void readTestMission(Long id);
 }

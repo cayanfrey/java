@@ -6,6 +6,7 @@ package ch.comem.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,8 +43,8 @@ public class Mission implements Serializable {
     
     private String categorie;
     
-    // associationss
-    @OneToOne
+    // associations
+    @OneToOne(mappedBy = "missionAppartientMedia", orphanRemoval = true, cascade = {CascadeType.ALL})
     private Media media;
     
     @ManyToOne

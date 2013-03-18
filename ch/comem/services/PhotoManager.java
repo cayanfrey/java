@@ -18,9 +18,6 @@ public class PhotoManager implements PhotoManagerLocal {
     @PersistenceContext(unitName = "challengeMeAppPU")
     private EntityManager em;
 
-    public void persist(Object object) {
-        em.persist(object);
-    }
 
     @Override
     public Long createPhoto(String titre, String url, String vignetteUrl) {

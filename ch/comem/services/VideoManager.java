@@ -18,9 +18,6 @@ public class VideoManager implements VideoManagerLocal {
     @PersistenceContext(unitName = "challengeMeAppPU")
     private EntityManager em;
 
-    public void persist(Object object) {
-        em.persist(object);
-    }
 
     @Override
     public Long createVideo(double duree) {

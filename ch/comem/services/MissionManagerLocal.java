@@ -22,5 +22,9 @@ public interface MissionManagerLocal {
     Long createMission(String titre, String description, Date dateMission, Date duree, int nbPoints, Statut statut, String categorie, Media media, Membre membre, Groupe groupe);
 
     void updateMission(Long id, String newTitre, String newDescription, String newCat);
+
+    void deleteMission(Long id);
+
+    Mission readMission(Long id);
     
 }

@@ -22,15 +22,11 @@ public class Message {
 
     public enum TypeStatut {
 
-        objetValide,
-        objetInexistant,
-        objetCree,
-        objetMemorise,
-        objetSupprime,
-        objetEfface,
-        objetModifie,
-        objetEdite,
-        erreur;
+        OBJECTVALIDE,
+        OBJETINEXISTANT,
+        OBJETCREE,
+        OBJETSUPPRIME,
+        OBJETMODIFIE,
     }
 }
 

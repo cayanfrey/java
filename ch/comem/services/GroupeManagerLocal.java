@@ -4,6 +4,7 @@
  */
 package ch.comem.services;
 
+import ch.comem.models.Groupe;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +15,11 @@ import javax.ejb.Local;
 public interface GroupeManagerLocal {
 
     Long createGroupe(String nom);
+    
+    void updateGroupe(Long id, String newNom);
+
+    void deleteGroupe(Long id);
+
+    Groupe readGroupe(Long id);
     
 }

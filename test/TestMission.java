@@ -6,7 +6,6 @@ package test;
 
 import ch.comem.models.Groupe;
 import ch.comem.models.Membre;
-import ch.comem.models.Mission;
 import ch.comem.models.Photo;
 import ch.comem.models.Statut;
 import ch.comem.services.MissionManagerLocal;
@@ -43,6 +42,18 @@ public class TestMission implements TestMissionLocal {
     public void updateTestMission(Long id, String newTitre, String newDescription, String newCat) {
         missionManager.updateMission(id, newTitre, newDescription, newCat);
     }
+
+    @Override
+    public void removeTestMission(Long id) {
+        missionManager.deleteMission(id);
+    }
+    
+    @Override
+    public void readTestMission(Long id) {
+        missionManager.readMission(id);
+    }
+    
+    
     
     
 

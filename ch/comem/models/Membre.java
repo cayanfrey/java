@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -30,17 +31,17 @@ public class Membre implements Serializable {
     private int point;
     
     // associationss
-    @OneToMany
+    @OneToMany(mappedBy = "membreEffectueMission")
     private List<Mission> listMission = new LinkedList<Mission>();
     
-    @OneToOne
+    @OneToMany(mappedBy = "membreValideMission")
     private List<Mission> listMissionDonne = new LinkedList<Mission>();
     
-    @OneToMany
-    private Groupe groupe;
+    @ManyToMany
+    private List<Groupe> listGroupe = new LinkedList<Groupe>();
 
     public List<Mission> getListMissionDonne() {
-        return listMissionDonne;
+        return listMissionDonne ;
     }
     
     public void setListMissionDonne(List<Mission> listMissionDonne) {
@@ -58,6 +59,18 @@ public class Membre implements Serializable {
     public void addMission(Mission mission){
         if(!this.listMission.contains(mission)){
             this.listMission.add(mission);
+        }
+    }
+    
+    public void addListMissionDonne(Mission mission){
+        if(!this.listMissionDonne.contains(mission)){
+            this.listMissionDonne.add(mission);
+        }
+    }
+    
+    public void addGroupe(Groupe groupe){
+        if(!this.listGroupe.contains(groupe)){
+            this.listGroupe.add(groupe);
         }
     }
 

@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,13 +46,20 @@ public class Mission implements Serializable {
     @OneToOne
     private Media media;
     
-    @OneToOne
+    @ManyToOne
     private Membre membreEffectueMission;
     
-    @OneToOne
+    @ManyToOne
     private Membre membreValideMission;
     
 
+    public Membre getMembreValideMission() {
+        return membreValideMission;
+    }
+
+    public void setMembreValideMission(Membre membreValideMission) {
+        this.membreValideMission = membreValideMission;
+    }
     
     public Membre getMembreEffectueMission() {
         return membreEffectueMission;

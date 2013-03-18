@@ -4,9 +4,10 @@
  */
 package ch.comem.services;
 
+import ch.comem.models.Groupe;
 import ch.comem.models.Media;
+import ch.comem.models.Membre;
 import ch.comem.models.Mission;
-import ch.comem.models.Photo;
 import ch.comem.models.Statut;
 import java.util.Date;
 import javax.ejb.Stateless;
@@ -28,7 +29,7 @@ public class MissionManager implements MissionManagerLocal {
 
     @Override
     public Long createMission(String titre, String description, Date dateMission, Date duree, 
-    int nbPoints, Statut statut, String categorie, Media media) {
+    int nbPoints, Statut statut, String categorie, Media media, Membre membre, Groupe groupe) {
         Mission mission = new Mission();
         mission.setTitre(titre);
         mission.setDescription(description);
@@ -38,35 +39,38 @@ public class MissionManager implements MissionManagerLocal {
         mission.setStatut(statut);
         mission.setCategorie(categorie);
         
-        // media    
+        // relation media    
         mission.setMedia(media);
-        media.setMission(mission);
-                
+        // relations membre mision
+        mission.setMembreEffectueMission(membre);
+        membre.addMission(mission);
+        mission.setMembreValideMission(membre);
+        membre.addListMissionDonne(mission);
+        // relation membre groupe
+        membre.addGroupe(groupe);
+        groupe.addMembreGroupe(membre);
+        
         em.persist(media);
+        em.persist(groupe);
+        em.persist(membre);
         em.persist(mission);
         em.flush();
         return mission.getId();
     }
 
     @Override
-    public void updateMission(Mission missionModifie) {
-        Mission retourMission = em.find(Mission.class, missionModifie.getId());
+    public void updateMission(Long id, String newTitre, String newDescription, String newCat) {
+        Mission retourMission = em.find(Mission.class, id);
         if(retourMission != null){
-            retourMission.setTitre(missionModifie.getTitre());
-            retourMission.setDescription(missionModifie.getDescription());
-            retourMission.setDateMission(missionModifie.getDateMission());
-            retourMission.setDuree(missionModifie.getDuree());
-            retourMission.setNbPoints(missionModifie.getNbPoints());
-            retourMission.setStatut(missionModifie.getStatut());
-            retourMission.setCategorie(missionModifie.getCategorie());
-            
-            //On reprend l'ancien media car on ne le change pas
-            retourMission.setMedia(retourMission.getMedia());
-            
+            retourMission.setTitre(newTitre);
+            retourMission.setDescription(newDescription);
+            retourMission.setCategorie(newCat);
             em.persist(retourMission);
             em.flush();
         }
     }
+    
+    
     
 
     

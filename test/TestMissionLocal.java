@@ -4,7 +4,7 @@
  */
 package test;
 
-import ch.comem.models.Media;
+import ch.comem.models.Membre;
 import ch.comem.models.Mission;
 import ch.comem.models.Statut;
 import java.util.Date;
@@ -18,7 +18,7 @@ import javax.ejb.Local;
 public interface TestMissionLocal {
     
     public void addTestMission(String titre, String description, Date dateMission, Date duree, 
-    int nbPoints, Statut statut, String categorie, String titreMedia);
+    int nbPoints, Statut statut, String categorie, String titreMedia, String nomMembre, String nomGroupe);
 
-    void updateTestMission(Mission missionModifie);
+    void updateTestMission(Long id, String newTitre, String newDescription, String newCat);
 }

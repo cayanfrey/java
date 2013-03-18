@@ -4,6 +4,8 @@
  */
 package test;
 
+import ch.comem.models.Groupe;
+import ch.comem.models.Membre;
 import ch.comem.models.Mission;
 import ch.comem.models.Photo;
 import ch.comem.models.Statut;
@@ -24,15 +26,22 @@ public class TestMission implements TestMissionLocal {
     private MissionManagerLocal missionManager;
     
     public void addTestMission(String titre, String description, Date dateMission, Date duree, 
-    int nbPoints, Statut statut, String categorie, String titreMedia){
+    int nbPoints, Statut statut, String categorie, String titreMedia, String nomMembre, String nomGroupe){
+        // photo
         Photo photo = new Photo();
         photo.setTitre(titreMedia);
-        missionManager.createMission(titre, description, dateMission, duree, nbPoints, statut, categorie, photo);
+        // membre
+        Membre membre = new Membre();
+        membre.setNom(nomMembre);
+        // groupe
+        Groupe groupe = new Groupe();
+        groupe.setNom(nomGroupe);
+        missionManager.createMission(titre, description, dateMission, duree, nbPoints, statut, categorie, photo, membre, groupe);
     }
 
     @Override
-    public void updateTestMission(Mission missionModifie) {
-        missionManager.updateMission(missionModifie);
+    public void updateTestMission(Long id, String newTitre, String newDescription, String newCat) {
+        missionManager.updateMission(id, newTitre, newDescription, newCat);
     }
     
     

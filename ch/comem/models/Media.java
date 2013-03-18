@@ -31,18 +31,6 @@ public abstract class Media implements Serializable {
     private String url;
     
     private String vignetteUrl;
-
-    //associations
-    @OneToOne
-    private Mission mission;
-
-    public Mission getMission() {
-        return mission;
-    }
-
-    public void setMission(Mission mission) {
-        this.mission = mission;
-    }
     
     
     public String getTitre() {

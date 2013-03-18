@@ -5,11 +5,13 @@
 package ch.comem.models;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -24,8 +26,14 @@ public class Groupe implements Serializable {
     private String nom;
 
     //Associations
-    @OneToMany
-    private Membre membre;
+    @ManyToMany
+    private List<Membre> contientMembre = new LinkedList<Membre>();
+    
+    public void addMembreGroupe(Membre membre){
+        if(!this.contientMembre.contains(membre)){
+            this.contientMembre.add(membre);
+        }
+    }
     
     @Override
     public int hashCode() {

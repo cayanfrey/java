@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 public class Mission implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String titre;
@@ -44,8 +44,25 @@ public class Mission implements Serializable {
     
     // associations
     @OneToOne
-    @JoinColumn(nullable = true)
     private Media media;
+    
+    @OneToOne
+    private Membre membreEffectueMission;
+    
+    @OneToOne
+    private Membre membreValideMission;
+    
+
+    
+    public Membre getMembreEffectueMission() {
+        return membreEffectueMission;
+    }
+
+    public void setMembreEffectueMission(Membre membreEffectueMission) {
+        this.membreEffectueMission = membreEffectueMission;
+    }
+    
+    
 
     public Media getMedia() {
         return media;

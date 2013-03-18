@@ -5,10 +5,14 @@
 package ch.comem.models;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -24,6 +28,35 @@ public class Membre implements Serializable {
     private String prenom;
     private String email;
     private int point;
+    
+    // associations
+    @OneToMany
+    private List<Mission> listMission = new LinkedList<Mission>();
+    
+    @OneToOne
+    private List<Mission> listMissionDonne = new LinkedList<Mission>();
+
+    public List<Mission> getListMissionDonne() {
+        return listMissionDonne;
+    }
+    
+    public void setListMissionDonne(List<Mission> listMissionDonne) {
+        this.listMissionDonne = listMissionDonne;
+    }
+
+    public List<Mission> getListMission() {
+        return listMission;
+    }
+
+    public void setListMission(List<Mission> listMission) {
+        this.listMission = listMission;
+    }
+    
+    public void addMission(Mission mission){
+        if(!this.listMission.contains(mission)){
+            this.listMission.add(mission);
+        }
+    }
 
     @Override
     public int hashCode() {

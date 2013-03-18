@@ -35,6 +35,9 @@ public class Membre implements Serializable {
     
     @OneToOne
     private List<Mission> listMissionDonne = new LinkedList<Mission>();
+    
+    @OneToMany
+    private Groupe groupe;
 
     public List<Mission> getListMissionDonne() {
         return listMissionDonne;

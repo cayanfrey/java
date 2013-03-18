@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -22,6 +23,10 @@ public class Groupe implements Serializable {
     private Long id;
     private String nom;
 
+    //Associations
+    @OneToMany
+    private Membre membre;
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -43,6 +43,7 @@ public class MissionManager implements MissionManagerLocal {
         media.setMission(mission);
                 
         em.persist(media);
+        
         em.persist(mission);
         em.flush();
         return mission.getId();

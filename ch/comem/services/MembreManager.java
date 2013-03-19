@@ -109,13 +109,7 @@ public class MembreManager implements MembreManagerLocal {
         }
         return retourMembre;
     }
-    
-    public List<Membre> getListMembreOrderByPoints(){
-        List<Membre> ret = null;
-        Query query = em.createQuery("SELECT m FROM Membre m ORDER BY m.point DESC");
-        ret = query.getResultList();
-        return ret;
-    }
+
 
     
 

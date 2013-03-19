@@ -29,7 +29,6 @@ public abstract class Media implements Serializable {
     
     private String url;
     
-    private String vignetteUrl;
     
     @OneToOne
     private Mission missionAppartientMedia;
@@ -58,14 +57,6 @@ public abstract class Media implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getVignetteUrl() {
-        return vignetteUrl;
-    }
-
-    public void setVignetteUrl(String vignetteUrl) {
-        this.vignetteUrl = vignetteUrl;
     }
     
     public Long getId() {

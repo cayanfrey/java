@@ -4,7 +4,7 @@
  */
 package ch.comem.services;
 
-import java.util.Date;
+import ch.comem.models.Video;
 import javax.ejb.Local;
 
 /**
@@ -15,5 +15,11 @@ import javax.ejb.Local;
 public interface VideoManagerLocal {
 
     Long createVideo(String titre, String url, double duree);
+
+    void updateVideo(Long id, String newTitre, String newUrl, double newDuree);
+
+    void removeVideo(Long id);
+
+    Video readVideo(Long id);
     
 }

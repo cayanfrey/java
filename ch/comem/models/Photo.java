@@ -20,13 +20,23 @@ public class Photo extends Media implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    private String vignetteUrl;
+    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public String getVignetteUrl() {
+        return vignetteUrl;
+    }
+
+    public void setVignetteUrl(String vignetteUrl) {
+        this.vignetteUrl = vignetteUrl;
     }
 
     @Override

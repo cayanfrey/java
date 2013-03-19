@@ -56,8 +56,18 @@ public class PopulateDB implements PopulateDBLocal {
         
     }
     
-    public void deleteMember(Long id){
+    public void deleteMembre(Long id){
         membreManager.deleteMembre(id);
+    }
+    
+    @Override
+    public void deleteMission(Long id) {
+        missionManager.deleteMission(id);
+    }
+    
+    @Override
+    public void deleteGroupe(Long id) {
+        groupeManager.deleteGroupe(id);
     }
     
     public Date addDays(Date date, int days){
@@ -66,11 +76,5 @@ public class PopulateDB implements PopulateDBLocal {
         cal.add(Calendar.DATE, days);
         return cal.getTime();
      }
-    
-    
-    
-    
-    
-    
 
 }

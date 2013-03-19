@@ -14,5 +14,11 @@ import javax.ejb.Local;
 public interface PopulateDBLocal {
 
     void populateDB();
+
+    void deleteMembre(Long id);
+
+    void deleteMission(Long id);
+
+    void deleteGroupe(Long id);
     
 }

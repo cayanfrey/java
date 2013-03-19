@@ -5,7 +5,7 @@
 package ch.comem.services;
 
 import ch.comem.messages.DaoException;
-import ch.comem.messages.Message;
+import ch.comem.models.Groupe;
 import ch.comem.models.Membre;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -38,6 +38,23 @@ public class MembreManager implements MembreManagerLocal {
         em.persist(membre);
         em.flush();
         return membre.getId();
+    }
+    
+    @Override
+    public Long addGroupe(Long grpId, Long membreId){
+        Groupe retourGroupe = em.find(Groupe.class, grpId);
+        Membre retourMembre = em.find(Membre.class, membreId);
+        if(retourGroupe != null && retourMembre != null){
+            retourGroupe.addMembreGroupe(retourMembre);
+            retourMembre.addGroupe(retourGroupe);
+        }
+        else if (retourGroupe == null){
+            throw new DaoException("le groupe n'existe pas", DaoException.StatutsCode.GROUPE_NOT_FOUND);
+        }
+        else if (retourMembre == null){
+            throw new DaoException("le membre n'existe pas", DaoException.StatutsCode.MEMBRE_NOT_FOUND);
+        }
+        return retourMembre.getId();
     }
     
     /**

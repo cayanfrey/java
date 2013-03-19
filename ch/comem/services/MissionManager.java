@@ -42,7 +42,7 @@ public class MissionManager implements MissionManagerLocal {
      */
     @Override
     public Long createMission(String titre, String description, Date dateMission, Date duree, 
-    int nbPoints, Statut statut, String categorie, Media media, Membre membre, Groupe groupe) {
+    int nbPoints, Statut statut, String categorie, Long idMedia, Long idMembreValide, Long idMembreEffetue) {
         Mission mission = new Mission();
         mission.setTitre(titre);
         mission.setDescription(description);
@@ -51,19 +51,22 @@ public class MissionManager implements MissionManagerLocal {
         mission.setNbPoints(nbPoints);
         mission.setStatut(statut);
         mission.setCategorie(categorie);
-        // relation media    
+        // relation media
+        Media media = em.find(Media.class, idMedia);
         mission.setMedia(media);
-        // relations membre mision
-        mission.setMembreEffectueMission(membre);
-        membre.addMission(mission);
-        mission.setMembreValideMission(membre);
-        membre.addListMissionDonne(mission);
-        // relation membre groupe
-        membre.addGroupe(groupe);
-        groupe.addMembreGroupe(membre);
+        // relations membre mision effectue
+        Membre membreEffectue = em.find(Membre.class, idMembreEffetue);
+        mission.setMembreEffectueMission(membreEffectue);
+        membreEffectue.addMission(mission);
+        // relations membre mission valide
+        Membre membreValide = em.find(Membre.class, idMembreValide);
+        mission.setMembreValideMission(membreValide);
+        membreValide.addListMissionDonne(mission);
+        //
         em.persist(media);
-        em.persist(groupe);
-        em.persist(membre);
+        //em.persist(groupe);
+        em.persist(membreEffectue);
+        em.persist(membreValide);
         em.persist(mission);
         em.flush();
         return mission.getId();

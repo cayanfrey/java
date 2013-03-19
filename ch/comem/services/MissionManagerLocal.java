@@ -19,7 +19,7 @@ import javax.ejb.Local;
 @Local
 public interface MissionManagerLocal {
 
-    Long createMission(String titre, String description, Date dateMission, Date duree, int nbPoints, Statut statut, String categorie, Media media, Membre membre, Groupe groupe);
+    Long createMission(String titre, String description, Date dateMission, Date duree, int nbPoints, Statut statut, String categorie, Long idMedia, Long idMembreValide, Long idMembreEffetue);
 
     void updateMission(Long id, String newTitre, String newDescription, String newCat);
 

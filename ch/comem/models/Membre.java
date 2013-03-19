@@ -14,12 +14,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
  * @author Cayan
  */
 @Entity
+@XmlRootElement
 public class Membre implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,6 +44,8 @@ public class Membre implements Serializable {
     @ManyToMany
     private List<Groupe> listGroupe = new LinkedList<Groupe>();
 
+    @XmlTransient
+    @JsonIgnore
     public List<Mission> getListMissionDonne() {
         return listMissionDonne ;
     }
@@ -48,6 +54,8 @@ public class Membre implements Serializable {
         this.listMissionDonne = listMissionDonne;
     }
 
+    @XmlTransient
+    @JsonIgnore
     public List<Mission> getListMission() {
         return listMission;
     }

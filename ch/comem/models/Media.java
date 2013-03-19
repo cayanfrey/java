@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -19,6 +20,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
+@XmlRootElement
 public abstract class Media implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

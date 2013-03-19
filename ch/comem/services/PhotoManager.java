@@ -4,6 +4,7 @@
  */
 package ch.comem.services;
 
+import ch.comem.messages.DaoException;
 import ch.comem.messages.Message;
 import ch.comem.models.Photo;
 import javax.ejb.Stateless;
@@ -47,10 +48,9 @@ public class PhotoManager implements PhotoManagerLocal {
             retourPhoto.setVignetteUrl(newVignetteUrl);
             em.persist(retourPhoto);
             em.flush();
-            Message.setStatut(Message.TypeStatut.OBJETMODIFIE);
         }
         else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+            throw new DaoException("la photo n'existe pas", DaoException.StatutsCode.PHOTO_NOT_FOUND);
         } 
     }
     /**
@@ -61,11 +61,10 @@ public class PhotoManager implements PhotoManagerLocal {
     public void deletePhoto(Long id) {
         Photo retourPhoto = em.find(Photo.class, id);
         if(retourPhoto != null){
-            em.remove(retourPhoto);
-            Message.setStatut(Message.TypeStatut.OBJETSUPPRIME);
+            em.remove(retourPhoto);            
         }
         else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+            throw new DaoException("la photo n'existe pas", DaoException.StatutsCode.PHOTO_NOT_FOUND);
         }
     }
     /**
@@ -76,12 +75,9 @@ public class PhotoManager implements PhotoManagerLocal {
     @Override
     public Photo readPhoto(Long id) {
         Photo retourPhoto = em.find(Photo.class, id);
-        if(retourPhoto != null){
-            Message.setStatut(Message.TypeStatut.OBJECTVALIDE);
-        }
-        else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
-        }
+        if(retourPhoto == null){
+            throw new DaoException("la photo n'existe pas", DaoException.StatutsCode.PHOTO_NOT_FOUND);
+        }        
         return retourPhoto;
     }
 

@@ -4,6 +4,7 @@
  */
 package ch.comem.services;
 
+import ch.comem.messages.DaoException;
 import ch.comem.messages.Message;
 import ch.comem.models.Membre;
 import javax.ejb.Stateless;
@@ -20,7 +21,7 @@ public class MembreManager implements MembreManagerLocal {
     private EntityManager em;
     
     /**
-     * Méthode qui créer un membre génère un message [OBJETCREE]
+     * Méthode qui créer un membre
      * @param nom
      * @param prenom
      * @param email
@@ -36,12 +37,11 @@ public class MembreManager implements MembreManagerLocal {
         membre.setPoint(point);
         em.persist(membre);
         em.flush();
-        Message.setStatut(Message.TypeStatut.OBJETCREE);
         return membre.getId();
     }
     
     /**
-     * Méthode qui update un membre génère un message [OBJETMODIFIE ou OBJETINEXISTANT]
+     * Méthode qui update un membre génère un message MEMBRE_NOT_FOUND si le membre n'existe pas
      * @param id
      * @param newNom
      * @param newPrenom
@@ -58,14 +58,13 @@ public class MembreManager implements MembreManagerLocal {
             retourMembre.setPoint(newPoints);
             em.persist(retourMembre);
             em.flush();
-            Message.setStatut(Message.TypeStatut.OBJETMODIFIE);
         }
         else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+            throw new DaoException("le membre n'existe pas", DaoException.StatutsCode.MEMBRE_NOT_FOUND);
         }
     }
     /**
-     * Méthode qui delete un membre génère un message [OBJETSUPPRIME ou OBJETINEXISTANT]
+     * Méthode qui delete un membre génère un message MEMBRE_NOT_FOUND si le membre n'existe pas
      * @param id 
      */
     @Override
@@ -73,10 +72,9 @@ public class MembreManager implements MembreManagerLocal {
         Membre retourMembre = em.find(Membre.class, id);
         if(retourMembre != null){
             em.remove(retourMembre);
-            Message.setStatut(Message.TypeStatut.OBJETSUPPRIME);
         }
         else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+            throw new DaoException("le membre n'existe pas", DaoException.StatutsCode.MEMBRE_NOT_FOUND);
         }
     }
     /**
@@ -87,11 +85,8 @@ public class MembreManager implements MembreManagerLocal {
     @Override
     public Membre readMembre(Long id) {
         Membre retourMembre = em.find(Membre.class, id);
-        if(retourMembre != null){
-            Message.setStatut(Message.TypeStatut.OBJECTVALIDE);
-        }
-        else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+        if(retourMembre == null){
+            throw new DaoException("le membre n'existe pas", DaoException.StatutsCode.MEMBRE_NOT_FOUND);
         }
         return retourMembre;
     }

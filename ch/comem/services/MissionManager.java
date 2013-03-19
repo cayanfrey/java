@@ -4,6 +4,7 @@
  */
 package ch.comem.services;
 
+import ch.comem.messages.DaoException;
 import ch.comem.messages.Message;
 import ch.comem.models.Groupe;
 import ch.comem.models.Media;
@@ -26,7 +27,7 @@ public class MissionManager implements MissionManagerLocal {
 
 
     /**
-     * Méthode qui créer une mission génère un message [OBJETCREE]
+     * Méthode qui créer une mission
      * @param titre, le titre de la mission
      * @param description, la description
      * @param dateMission, la date de début au format Date
@@ -65,13 +66,11 @@ public class MissionManager implements MissionManagerLocal {
         em.persist(membre);
         em.persist(mission);
         em.flush();
-        // set message
-        Message.setStatut(Message.TypeStatut.OBJETCREE);
         return mission.getId();
     }
     
     /**
-     * Méthode qui update une mission génère un message [OBJETMODIFIE ou OBJETINEXISTANT]
+     * Méthode qui update une mission génère un message MISSION_NOT_FOUND si l'objet n'existe pas
      * @param id, l'id de la mission à modifier
      * @param newTitre, le nouveau titre
      * @param newDescription, la nouvelle description
@@ -86,14 +85,13 @@ public class MissionManager implements MissionManagerLocal {
             retourMission.setCategorie(newCat);
             em.persist(retourMission);
             em.flush();
-            Message.setStatut(Message.TypeStatut.OBJETMODIFIE);
         }
         else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+            throw new DaoException("la mission n'existe pas", DaoException.StatutsCode.MISSION_NOT_FOUND);
         }
     }
     /**
-     * Méthode qui delete une mission génère un message [OBJETSUPPRIME ou OBJETINEXISTANT]
+     * Méthode qui delete une mission génère un message MISSION_NOT_FOUND si l'objet n'existe pas
      * @param id, l'id de la mission à supprimer
      */
     @Override
@@ -101,30 +99,23 @@ public class MissionManager implements MissionManagerLocal {
         Mission retourMission = em.find(Mission.class, id);
         if(retourMission != null){
             em.remove(retourMission);
-            Message.setStatut(Message.TypeStatut.OBJETSUPPRIME);
         }
         else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+            throw new DaoException("la mission n'existe pas", DaoException.StatutsCode.MISSION_NOT_FOUND);
         }
     }
     /**
-     * Méthode qui read une mission génère un message [OBJECTVALIDE ou OBJETINEXISTANT]
+     * Méthode qui read une mission génère un message MISSION_NOT_FOUND si l'objet n'existe pas
      * @param id, l'id de la mission à lire
      * @return un objet Mission ou null
      */
     @Override
     public Mission readMission(Long id) {
         Mission retourMission = em.find(Mission.class, id);
-        if(retourMission != null){
-            Message.setStatut(Message.TypeStatut.OBJECTVALIDE);
-        }
-        else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+        if(retourMission == null){
+            throw new DaoException("la mission n'existe pas", DaoException.StatutsCode.MISSION_NOT_FOUND);
         }
         return retourMission;
     }
-    
-    
-    
 
 }

@@ -4,6 +4,7 @@
  */
 package ch.comem.services;
 
+import ch.comem.messages.DaoException;
 import ch.comem.messages.Message;
 import ch.comem.models.Video;
 import javax.ejb.Stateless;
@@ -47,10 +48,9 @@ public class VideoManager implements VideoManagerLocal {
             retourVideo.setDuree(newDuree);
             em.persist(retourVideo);
             em.flush();
-            Message.setStatut(Message.TypeStatut.OBJETMODIFIE);
         }
         else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+            throw new DaoException("la video n'existe pas", DaoException.StatutsCode.VIDEO_NOT_FOUND);
         } 
     }
     /**
@@ -62,10 +62,9 @@ public class VideoManager implements VideoManagerLocal {
         Video retourVideo = em.find(Video.class, id);
         if(retourVideo != null){
             em.remove(retourVideo);
-            Message.setStatut(Message.TypeStatut.OBJETSUPPRIME);
         }
         else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+            throw new DaoException("la video n'existe pas", DaoException.StatutsCode.VIDEO_NOT_FOUND);
         }
     }
     /**
@@ -76,11 +75,8 @@ public class VideoManager implements VideoManagerLocal {
     @Override
     public Video readVideo(Long id) {
         Video retourVideo = em.find(Video.class, id);
-        if(retourVideo != null){
-            Message.setStatut(Message.TypeStatut.OBJECTVALIDE);
-        }
-        else{
-            Message.setStatut(Message.TypeStatut.OBJETINEXISTANT);
+        if(retourVideo == null){
+            throw new DaoException("la video n'existe pas", DaoException.StatutsCode.VIDEO_NOT_FOUND);
         }
         return retourVideo;
     }

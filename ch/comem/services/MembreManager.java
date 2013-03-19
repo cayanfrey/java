@@ -7,9 +7,11 @@ package ch.comem.services;
 import ch.comem.messages.DaoException;
 import ch.comem.models.Groupe;
 import ch.comem.models.Membre;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -106,6 +108,13 @@ public class MembreManager implements MembreManagerLocal {
             throw new DaoException("le membre n'existe pas", DaoException.StatutsCode.MEMBRE_NOT_FOUND);
         }
         return retourMembre;
+    }
+    
+    public List<Membre> getListMembreOrderByPoints(){
+        List<Membre> ret = null;
+        Query query = em.createQuery("select e from "+Membre.class+" e");
+        ret = query.getResultList();
+        return ret;
     }
 
     

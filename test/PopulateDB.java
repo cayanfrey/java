@@ -39,9 +39,9 @@ public class PopulateDB implements PopulateDBLocal {
         Long idGrpPorn = groupeManager.createGroupe("pornColloc");
         Long idGrpClasse = groupeManager.createGroupe("class mm 39");
         
-        Long idBastien = membreManager.createMembre("eichenberger", "bastien", "bastien@gmail.com", 0);
+        Long idBastien = membreManager.createMembre("eichenberger", "bastien", "bastien@gmail.com", 1);
         // ajout d'un groupe faculatif
-        Long idDarko = membreManager.createMembre("ursewitch", "darko", "darkMir@gmail.com", 0);
+        Long idDarko = membreManager.createMembre("ursewitch", "darko", "darkMir@gmail.com", 4);
         membreManager.addGroupe(idGrpClasse, idDarko);
         
         Long idPhoto = photoManager.createPhoto("nuages", "http://nuage.jpg", "http://vignetteURL");

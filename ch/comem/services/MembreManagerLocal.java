@@ -5,6 +5,7 @@
 package ch.comem.services;
 
 import ch.comem.models.Membre;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -23,5 +24,7 @@ public interface MembreManagerLocal {
     Membre readMembre(Long id);
     
     Long addGroupe(Long grpId, Long membreId);
+    
+    List<Membre> getListMembreOrderByPoints();
     
 }

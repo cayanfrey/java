@@ -7,6 +7,7 @@ package ch.comem.models;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,13 +36,13 @@ public class Membre implements Serializable {
     private int point;
     
     // associationss
-    @OneToMany(mappedBy = "membreEffectueMission")
+    @OneToMany(mappedBy = "membreEffectueMission", cascade = CascadeType.REMOVE)
     private List<Mission> listMission = new LinkedList<Mission>();
     
-    @OneToMany(mappedBy = "membreValideMission")
+    @OneToMany(mappedBy = "membreValideMission", cascade = CascadeType.REMOVE)
     private List<Mission> listMissionDonne = new LinkedList<Mission>();
     
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Groupe> listGroupe = new LinkedList<Groupe>();
 
     @XmlTransient

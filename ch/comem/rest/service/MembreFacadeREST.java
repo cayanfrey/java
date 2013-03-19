@@ -4,11 +4,13 @@
  */
 package ch.comem.rest.service;
 
+import ch.comem.messages.DaoException;
 import ch.comem.models.Membre;
+import ch.comem.services.MembreManagerLocal;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -23,20 +25,23 @@ import javax.ws.rs.Produces;
  * @author bastieneichenberger
  */
 @Stateless
-@Path("ch.comem.models.membre")
+@Path("membres")
 public class MembreFacadeREST extends AbstractFacade<Membre> {
-    @PersistenceContext(unitName = "challengeMeAppPU")
-    private EntityManager em;
-
+    
+    @EJB
+    private MembreManagerLocal membreManager;
+    
     public MembreFacadeREST() {
         super(Membre.class);
     }
 
     @POST
     @Override
-    @Consumes({"application/xml", "application/json"})
+    @Consumes({"application/xml", "application/json"}) //mimeType
     public void create(Membre entity) {
-        super.create(entity);
+        
+        membreManager.createMembre(entity.getNom(), entity.getPrenom(), entity.getEmail(), 0);
+        // creer player dans l'engine
     }
 
     @PUT
@@ -49,12 +54,19 @@ public class MembreFacadeREST extends AbstractFacade<Membre> {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
+        try{
+            membreManager.deleteMembre(id);
+        }
+        catch(DaoException daoEx){
+            // génère http 404
+        }
+        
+        
     }
 
     @GET
     @Path("{id}")
-    @Produces({"application/xml", "application/json"})
+    @Produces({"application/xml", "application/json"}) // acept -> envoi depuis le client
     public Membre find(@PathParam("id") Long id) {
         return super.find(id);
     }
@@ -85,7 +97,8 @@ public class MembreFacadeREST extends AbstractFacade<Membre> {
 
     @Override
     protected EntityManager getEntityManager() {
-        return em;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     
 }

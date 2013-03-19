@@ -56,6 +56,10 @@ public class PopulateDB implements PopulateDBLocal {
         
     }
     
+    public void deleteMember(Long id){
+        membreManager.deleteMembre(id);
+    }
+    
     public Date addDays(Date date, int days){
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

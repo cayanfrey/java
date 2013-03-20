@@ -20,5 +20,11 @@ public interface PopulateDBLocal {
     void deleteMission(Long id);
 
     void deleteGroupe(Long id);
+
+    void updateMembre(Long id);
+
+    void updateGroupe(Long id);
+    
+    void updateMission(Long id);
     
 }

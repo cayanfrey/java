@@ -70,6 +70,21 @@ public class PopulateDB implements PopulateDBLocal {
         groupeManager.deleteGroupe(id);
     }
     
+    @Override
+    public void updateMembre(Long id) {
+          membreManager.updateMembre(id, "modification", "modif", "modific", 10);
+    }
+      
+    @Override
+    public void updateGroupe(Long id) {
+        groupeManager.updateGroupe(id, "nouveauTitre");
+    } 
+    
+    @Override
+    public void updateMission(Long id) {
+        missionManager.updateMission(id, "nvlleMission", "nvlleMission", "nvlleMission");
+    }
+    
     public Date addDays(Date date, int days){
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

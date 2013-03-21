@@ -23,66 +23,8 @@ import javax.ws.rs.Produces;
  * @author bastieneichenberger
  */
 @Stateless
-@Path("ch.comem.models.photo")
-public class PhotoFacadeREST extends AbstractFacade<Photo> {
-    @PersistenceContext(unitName = "challengeMeAppPU")
-    private EntityManager em;
+@Path("photos")
+public class PhotoFacadeREST {
 
-    public PhotoFacadeREST() {
-        super(Photo.class);
-    }
-
-    @POST
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void create(Photo entity) {
-        super.create(entity);
-    }
-
-    @PUT
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void edit(Photo entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
-    }
-
-    @GET
-    @Path("{id}")
-    @Produces({"application/xml", "application/json"})
-    public Photo find(@PathParam("id") Long id) {
-        return super.find(id);
-    }
-
-    @GET
-    @Override
-    @Produces({"application/xml", "application/json"})
-    public List<Photo> findAll() {
-        return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({"application/xml", "application/json"})
-    public List<Photo> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
-    @Path("count")
-    @Produces("text/plain")
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
     
 }

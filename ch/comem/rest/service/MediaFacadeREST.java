@@ -23,66 +23,8 @@ import javax.ws.rs.Produces;
  * @author bastieneichenberger
  */
 @Stateless
-@Path("ch.comem.models.media")
-public class MediaFacadeREST extends AbstractFacade<Media> {
-    @PersistenceContext(unitName = "challengeMeAppPU")
-    private EntityManager em;
+@Path("medias")
+public class MediaFacadeREST {
 
-    public MediaFacadeREST() {
-        super(Media.class);
-    }
-
-    @POST
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void create(Media entity) {
-        super.create(entity);
-    }
-
-    @PUT
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void edit(Media entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
-    }
-
-    @GET
-    @Path("{id}")
-    @Produces({"application/xml", "application/json"})
-    public Media find(@PathParam("id") Long id) {
-        return super.find(id);
-    }
-
-    @GET
-    @Override
-    @Produces({"application/xml", "application/json"})
-    public List<Media> findAll() {
-        return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({"application/xml", "application/json"})
-    public List<Media> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
-    @Path("count")
-    @Produces("text/plain")
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
     
 }

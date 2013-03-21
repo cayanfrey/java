@@ -23,66 +23,8 @@ import javax.ws.rs.Produces;
  * @author bastieneichenberger
  */
 @Stateless
-@Path("ch.comem.models.video")
-public class VideoFacadeREST extends AbstractFacade<Video> {
-    @PersistenceContext(unitName = "challengeMeAppPU")
-    private EntityManager em;
+@Path("videos")
+public class VideoFacadeREST {
 
-    public VideoFacadeREST() {
-        super(Video.class);
-    }
-
-    @POST
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void create(Video entity) {
-        super.create(entity);
-    }
-
-    @PUT
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void edit(Video entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
-    }
-
-    @GET
-    @Path("{id}")
-    @Produces({"application/xml", "application/json"})
-    public Video find(@PathParam("id") Long id) {
-        return super.find(id);
-    }
-
-    @GET
-    @Override
-    @Produces({"application/xml", "application/json"})
-    public List<Video> findAll() {
-        return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({"application/xml", "application/json"})
-    public List<Video> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
-    @Path("count")
-    @Produces("text/plain")
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
     
 }

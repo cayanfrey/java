@@ -44,6 +44,9 @@ public class Membre implements Serializable {
     
     @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Groupe> listGroupe = new LinkedList<Groupe>();
+    
+    @OneToMany(mappedBy = "membreCreerGroupe", cascade = CascadeType.REMOVE)
+    private List<Groupe> listGroupeCree = new LinkedList<Groupe>();
 
     @XmlTransient
     @JsonIgnore
@@ -78,6 +81,12 @@ public class Membre implements Serializable {
     }
     
     public void addGroupe(Groupe groupe){
+        if(!this.listGroupe.contains(groupe)){
+            this.listGroupe.add(groupe);
+        }
+    }
+    
+    public void addGroupeCree(Groupe groupe){
         if(!this.listGroupe.contains(groupe)){
             this.listGroupe.add(groupe);
         }

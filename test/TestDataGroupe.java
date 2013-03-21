@@ -22,7 +22,7 @@ public class TestDataGroupe implements TestDataGroupeLocal {
     @Override
     public void testCreateGroupe(String nom) {
         for (int i=0; i<10;i++){
-            groupeManager.createGroupe(nom);
+            //groupeManager.createGroupe(nom);
         }
     }
     

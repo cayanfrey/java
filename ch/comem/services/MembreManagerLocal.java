@@ -25,5 +25,7 @@ public interface MembreManagerLocal {
     
     Long addGroupe(Long grpId, Long membreId);
     
+    List<Membre> getListMembresFromGroup(Long idGroupe);
+    
     
 }

@@ -4,9 +4,10 @@
  */
 package ch.comem.services;
 
-import ch.comem.messages.DaoException;
-import ch.comem.messages.Message;
+import ch.comem.daoExceptions.DaoException;
 import ch.comem.models.Groupe;
+import ch.comem.models.Membre;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,19 +18,32 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class GroupeManager implements GroupeManagerLocal {
+    
     @PersistenceContext(unitName = "challengeMeAppPU")
     private EntityManager em;
     
+    @EJB
+    private MembreManagerLocal membreManager;
+    
+   
+    
     
     /**
-     * Méthode qui créer un groupe
+     * Méthode qui créer un groupe, on connait quel membre a créé quel groupe
      * @param nom, le nom du groupe
-     * @return Long, l'id du groupe
+     * @return Long, l'id du Membre qui créer le groupe, le nom du nouveau groupe
      */
     @Override
-    public Long createGroupe(String nom) {
+    public Long createGroupe(Long idMembre,String nom) {
+        // read membre
+        Membre membreCreateur = membreManager.readMembre(idMembre);
+        // ajouter le nom du groupe
         Groupe groupe = new Groupe();
         groupe.setNom(nom);
+        // ajouter la relation membre qui createur du groupe
+        membreCreateur.addGroupeCree(groupe);
+        groupe.setMembreCreerGroupe(membreCreateur);
+        em.persist(membreCreateur);
         em.persist(groupe);
         em.flush();
         return groupe.getId();
@@ -53,13 +67,21 @@ public class GroupeManager implements GroupeManagerLocal {
     }
     /**
      * Méthode qui delete un groupe génère un message GROUP_NOT_FOUND si le groupe n'existe pas
+     * cette méthode vérifie la contrainte d'intégrité: le membre qui supprime un groupe doit en être le créateur
      * @param id, l'id du groupe à supprimer
      */
     @Override
-    public void deleteGroupe(Long id) {
-        Groupe retourGroupe = em.find(Groupe.class, id);
+    public void deleteGroupe(Long idGroupe, Long idMembre) {
+        Groupe retourGroupe = em.find(Groupe.class, idGroupe);
         if(retourGroupe != null){
-            em.remove(retourGroupe);
+            if(this.estCreateurGroupe(idGroupe, idMembre)){
+                em.remove(retourGroupe);
+            }
+            else{
+                throw new DaoException("le membre doit être le créateur "
+                        + "du groupe pour pouvoir le supprimer", DaoException.StatutsCode.CI_NOT_RESPECTED);
+            }
+            
         }
         else{
             throw new DaoException("le groupe n'existe pas", DaoException.StatutsCode.GROUPE_NOT_FOUND);
@@ -79,6 +101,24 @@ public class GroupeManager implements GroupeManagerLocal {
         return retourGroupe;
     }
     
+    // vérifications contraintes d'intégritées --------------------------------------------------------
+    /**
+     * méthode qui permet de savoir si un membre est bien le créateur d'un groupe
+     * @param idGroupe
+     * @param idMembre
+     * @return true si le membre a bien créé ce groupe, false sinon
+     */
+    private Boolean estCreateurGroupe(Long idGroupe, Long idMembre){
+        Boolean estCreateur = false;
+        Membre membre = membreManager.readMembre(idMembre);
+        Groupe groupeASupprimer = this.readGroupe(idGroupe);
+        // le groupe que l'on souhaite supprimer a-t-il été créé par ce membre
+        Long idCreateurMembre = groupeASupprimer.getMembreCreerGroupe().getId();
+        if(idCreateurMembre == membre.getId()){
+            estCreateur = true;
+        }
+        return estCreateur;
+    }
     
     
 

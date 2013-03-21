@@ -4,8 +4,7 @@
  */
 package ch.comem.services;
 
-import ch.comem.messages.DaoException;
-import ch.comem.messages.Message;
+import ch.comem.daoExceptions.DaoException;
 import ch.comem.models.Groupe;
 import ch.comem.models.Media;
 import ch.comem.models.Membre;

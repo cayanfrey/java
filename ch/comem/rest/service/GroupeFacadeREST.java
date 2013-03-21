@@ -5,7 +5,11 @@
 package ch.comem.rest.service;
 
 import ch.comem.models.Groupe;
+import ch.comem.models.Membre;
+import ch.comem.services.GroupeManagerLocal;
+import ch.comem.services.MembreManagerLocal;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,72 +21,54 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  *
  * @author bastieneichenberger
  */
 @Stateless
-@Path("ch.comem.models.groupe")
-public class GroupeFacadeREST extends AbstractFacade<Groupe> {
-    @PersistenceContext(unitName = "challengeMeAppPU")
-    private EntityManager em;
-
-    public GroupeFacadeREST() {
-        super(Groupe.class);
+@Path("groupes")
+public class GroupeFacadeREST {
+    @EJB
+    private MembreManagerLocal membreManager;
+    @EJB
+    private GroupeManagerLocal groupeManager;
+    
+    /**
+     * méthode qui permet de récupérer la list des membre appartenant à un groupe
+     * @param idGroupe
+     * @return une List de membre
+     */
+    @GET
+    @Path("{id}")
+    @Produces({"application/xml", "application/json"})
+    public List<Membre> getMembresFromGroup(@PathParam("id") Long idGroupe) {
+        Groupe groupe = groupeManager.readGroupe(idGroupe);
+        List<Membre> listMembre = membreManager.getListMembresFromGroup(idGroupe);
+        return listMembre;
     }
-
+    /**
+     * méthode qui permet d'ajouter un groupe
+     * @param membreCreateur
+     * @param groupe
+     * @param membre, le membre qui a créé ce groupe
+     * @return le groupe ajouté
+     */
     @POST
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void create(Groupe entity) {
-        super.create(entity);
+    @Consumes({"application/xml", "application/json"}) //mimeType
+    @Produces({"application/xml", "application/json"})
+    public Groupe addGroupe(Membre membreCreateur, Groupe groupe) {
+        Long id = groupeManager.createGroupe(membreCreateur.getId(), groupe.getNom());
+        Groupe groupeAjoute = groupeManager.readGroupe(id);
+        return groupeAjoute;
     }
-
-    @PUT
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void edit(Groupe entity) {
-        super.edit(entity);
-    }
-
+    
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
-    }
-
-    @GET
-    @Path("{id}")
-    @Produces({"application/xml", "application/json"})
-    public Groupe find(@PathParam("id") Long id) {
-        return super.find(id);
-    }
-
-    @GET
-    @Override
-    @Produces({"application/xml", "application/json"})
-    public List<Groupe> findAll() {
-        return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({"application/xml", "application/json"})
-    public List<Groupe> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
-    @Path("count")
-    @Produces("text/plain")
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
+    public Response delGroupe(@PathParam("id") Long idGroupe, @PathParam("id") Long idMembre){
+        groupeManager.deleteGroupe(idGroupe, idMembre);
+        return Response.status(200).entity("le groupe a bien été supprimé").build();
     }
     
 }

@@ -4,7 +4,7 @@
  */
 package ch.comem.services;
 
-import ch.comem.messages.DaoException;
+import ch.comem.daoExceptions.DaoException;
 import ch.comem.models.Groupe;
 import ch.comem.models.Membre;
 import java.util.List;
@@ -108,6 +108,22 @@ public class MembreManager implements MembreManagerLocal {
             throw new DaoException("le membre n'existe pas", DaoException.StatutsCode.MEMBRE_NOT_FOUND);
         }
         return retourMembre;
+    }
+    
+    /**
+     * méthode qui retourne tous les membres d'un groupe, génère une exception DAO si le groupe est vide
+     * @param idGroupe
+     * @return une liste de membre ou null
+     */
+    @Override
+    public List<Membre> getListMembresFromGroup(Long idGroupe){
+        List<Membre> ret = null;
+        Query query = em.createQuery("SELECT m FROM Membre m, Groupe g WHERE m.id= g.id AND g.id = "+idGroupe);
+        ret = query.getResultList();
+        if(ret.isEmpty()){
+            throw new DaoException("le groupe est vide", DaoException.StatutsCode.MEMBRE_NOT_FOUND);
+        }
+        return ret;
     }
 
 

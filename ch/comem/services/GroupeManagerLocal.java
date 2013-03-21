@@ -14,11 +14,11 @@ import javax.ejb.Local;
 @Local
 public interface GroupeManagerLocal {
 
-    Long createGroupe(String nom);
+    Long createGroupe(Long idMembre, String nom);
     
     void updateGroupe(Long id, String newNom);
 
-    void deleteGroupe(Long id);
+    void deleteGroupe(Long id, Long idMembre);
 
     Groupe readGroupe(Long id);
     

@@ -36,12 +36,18 @@ public class PopulateDB implements PopulateDBLocal {
 
     @Override
     public void populateDB() {
-        Long idGrpPorn = groupeManager.createGroupe("pornColloc");
-        Long idGrpClasse = groupeManager.createGroupe("class mm 39");
+        
+       
         
         Long idBastien = membreManager.createMembre("eichenberger", "bastien", "bastien@gmail.com", 1);
         // ajout d'un groupe faculatif
         Long idDarko = membreManager.createMembre("ursewitch", "darko", "darkMir@gmail.com", 4);
+        
+        
+        Long idGrpPorn = groupeManager.createGroupe(idBastien, "pornColloc");
+        Long idGrpClasse = groupeManager.createGroupe(idBastien, "class mm 39");
+        
+        membreManager.addGroupe(idGrpClasse, idBastien);
         membreManager.addGroupe(idGrpClasse, idDarko);
         
         Long idPhoto = photoManager.createPhoto("nuages", "http://nuage.jpg", "http://vignetteURL");
@@ -67,7 +73,7 @@ public class PopulateDB implements PopulateDBLocal {
     
     @Override
     public void deleteGroupe(Long id) {
-        groupeManager.deleteGroupe(id);
+        //groupeManager.deleteGroupe(id);
     }
     
     @Override

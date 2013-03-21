@@ -1,4 +1,4 @@
-package ch.comem.messages;
+package ch.comem.daoExceptions;
 
 public class DaoException extends RuntimeException {
 
@@ -38,6 +38,7 @@ public class DaoException extends RuntimeException {
         MEMBRE_NOT_FOUND,
         MISSION_NOT_FOUND,
         PHOTO_NOT_FOUND,
-        VIDEO_NOT_FOUND,;
+        VIDEO_NOT_FOUND,
+        CI_NOT_RESPECTED;
     }
 }

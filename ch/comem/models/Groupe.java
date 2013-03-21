@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,6 +31,26 @@ public class Groupe implements Serializable {
     //Associations
     @ManyToMany
     private List<Membre> contientMembre = new LinkedList<Membre>();
+    
+    @ManyToOne
+    private Membre membreCreerGroupe;
+
+    public List<Membre> getContientMembre() {
+        return contientMembre;
+    }
+
+    public void setContientMembre(List<Membre> contientMembre) {
+        this.contientMembre = contientMembre;
+    }
+
+    public Membre getMembreCreerGroupe() {
+        return membreCreerGroupe;
+    }
+
+    public void setMembreCreerGroupe(Membre membreCreerGroupe) {
+        this.membreCreerGroupe = membreCreerGroupe;
+    }
+    
     
     public void addMembreGroupe(Membre membre){
         if(!this.contientMembre.contains(membre)){
